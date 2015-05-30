@@ -11,9 +11,14 @@ import org.kotikov.framework.TestCommander;
 
 @RunWith(Suite.class)
 @SuiteClasses({ 
-	 PricePageTests.class,
-	 RecomenduemoePageTests.class,
-	 DostupKBazeResumePageTests.class,
+						PricePageTests.class,
+						DostupKBazeResumePageParamTests.class,
+						PublikatsiiVakansiyPageTests.class,
+						AddAllOffersTests.class,
+						RecomenduemoePageTests.class,
+						DostupKBazeResumePageTests.class
+						
+						
 })
 
 /**
@@ -22,9 +27,9 @@ import org.kotikov.framework.TestCommander;
  *
  */
 public class SuiteRun {
-	
 	 
-	 @BeforeClass
+	 
+	    @BeforeClass
 	    public static void setUp() {
 	      System.out.println("Запуск сьютов");
 	      TestCommander.suiteTrue();

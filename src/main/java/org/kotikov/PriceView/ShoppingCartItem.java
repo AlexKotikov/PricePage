@@ -1,53 +1,67 @@
 package org.kotikov.PriceView;
 
 import org.kotikov.framework.PriceUtils;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+ 
+/**
+ * Класс представляет собой один элемент корзины
+ * @author ak
+ *
+ */
+ 
 
 public class ShoppingCartItem {
+   
 
-	private String itemTitle;
-	private String ItemOldPrice;
-	private String ItemActualCost;
-	private String place;
-	
-	private final String  placeStart =  "//li[@class=\"price-cart__item\"][";  
-	private final String  placeEnd   = "]/small";
-	
-	
-	public String getItemTitle() {
-		return itemTitle;
-	}
-
-	public String getItemOldPrice() {
-		return ItemOldPrice;
-	}
-
-	public String getItemActualCost() {
-		return ItemActualCost;
-	}
+    private WebDriver driver;
+    public ShoppingCartItem(WebDriver d){ this. driver =d;}
+   
+    //Общие айдишники
+    final static private String labels       = "/label/span[1]";
+    final static private String oldPrices    = "/label/span[2]";
+    final static private String actualPrices = "/label/span[3]";
+    final static private String deleteLink   = "/small";
+   
+    //Поля объекта
+    private String itemTitle;
+    private String itemOldPrice;
+    private String itemActualCost;
 
 
-	public String getPlace() {
-		return place;
-	}
+   
+    public ShoppingCartItem init(int number){
+        this.itemTitle           = PriceUtils.getText(driver, new StringBuilder(ShoppingCartItemsList.itemsInCart+"[" +(number) +"]" + labels       ).toString()) ;
+        this.itemOldPrice       = PriceUtils.getText(driver, new StringBuilder(ShoppingCartItemsList.itemsInCart+"[" +(number) +"]" + oldPrices    ).toString()) ;
+        this.itemActualCost   = PriceUtils.getText(driver, new StringBuilder(ShoppingCartItemsList.itemsInCart+"[" +(number) +"]" + actualPrices ).toString()) ;
+    return this;
+    }   
+   
+   
+    public String getItemSpecialOfferTitle() {
+        return itemTitle ;
+    }
 
-	 
-	@Override
-	public String toString() {
-		return "ShoppingCartItem [itemTitle=" + itemTitle + ", ItemOldPrice="
-				+ ItemOldPrice + ", ItemActualCost=" + ItemActualCost
-				+ ", place=" + place + "]";
-	}
+    public String getItemOldPrice() {
+        return PriceUtils.parsCurrency(itemOldPrice);
+    }
 
-	public void print() {
-		System.out.println(toString());
-	}
+    public String getItemActualCost() {
+        return PriceUtils.parsCurrency(itemActualCost);
+    }
 
-	public ShoppingCartItem(String itemTitle, String itemOldPrice,
-			String itemActualCost, int pl) {
-		 
-		this.itemTitle = itemTitle;
-		this.ItemOldPrice = PriceUtils.parsCurrency(itemOldPrice);
-		this.ItemActualCost = PriceUtils.parsCurrency(itemActualCost);
-		this.place = placeStart + Integer.toString(pl+1) + placeEnd ;
-	};
+    public void print() {
+        System.out.println(toString());
+    }
+
+    public void delete(int i) {
+        PriceUtils.click(driver,  new StringBuilder(ShoppingCartItemsList.itemsInCart+"[" +(i) +"]" + deleteLink ).toString());
+    }
+   
+    @Override
+    public String toString() {
+        return "ShoppingCartItem [itemTitle=" + itemTitle + ", itemOldPrice="
+                + itemOldPrice + ", itemActualCost=" + itemActualCost + "]";
+    }
+
 }

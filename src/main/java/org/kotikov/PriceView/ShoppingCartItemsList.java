@@ -1,72 +1,74 @@
 package org.kotikov.PriceView;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.openqa.selenium.By;
+import org.kotikov.framework.PriceUtils;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindAll;
-import org.openqa.selenium.support.FindBy;
+
+  /**
+   * Этот класс представляет список объектов в корзине.
+   * Эмулирует работу аррэйлиста, а на самом деле он генерит элементы на лету.
+   * @author ak
+   *
+   */
 
 public class ShoppingCartItemsList {
 
-	@FindAll({	@FindBy(xpath = "//li[@class=\"price-cart__item\"]/label/span[1]")})
-	List<WebElement> names = new ArrayList<WebElement>();
-	
-	@FindAll({@FindBy(xpath = "//li[@class=\"price-cart__item\"]/label/span[2]")})
-	List<WebElement> oldPrice = new ArrayList<WebElement>();
-	
-	@FindAll({@FindBy(xpath = "//li[@class=\"price-cart__item\"]/label/span[3]")})
-	List<WebElement> actualPrice = new ArrayList<WebElement>();
-	
-	//Хранилищие найденных объектов
-	List<ShoppingCartItem> ShoppingCartItems = new ArrayList<ShoppingCartItem>();
-	
-	private WebDriver driver;
+    final static protected String itemsInCart ="(//div[@class='price-cart__contents'  and  not(ancestor::*[contains(@class,'hidden')])]/ol/descendant::li[@class='price-cart__item'  and not(ancestor::ol[contains(@class,'hidden')])  ])";
 
-	public ShoppingCartItemsList(WebDriver d) {
-		this.driver = d;
-		
-	}
+   
+    //Количество записей в корзине
+    private int ShoppingCartItems =0;
+   
+    private WebDriver driver;
 
-	public ShoppingCartItem get(int i) {
-		return ShoppingCartItems.get(i-1);
-	}
-	 /**
-	  * Удалить элемент по его порядковому номеру нахождения в корзине
-	  * @throws Exception
-	  */
-	public void deleteItem (int i) throws Exception {
-		int todelete = i-1;
-	
-		if (todelete>=ShoppingCartItems.size()) 
-			throw new Exception("Вы пытаетесь удалить больше чем есть в списке");
-		
-		driver.findElement(By.xpath(ShoppingCartItems.get(todelete).getPlace())).click();
-	}
-	
-	public int getCount(){
-		return ShoppingCartItems.size();
-	} 
-	
-	public void printAll(){
-		 
-		for (int i=0;i<ShoppingCartItems.size(); i++) {
-			System.out.print(ShoppingCartItems.get(i).getItemTitle() +"   ");
-			System.out.print(ShoppingCartItems.get(i).getItemActualCost() +"   ");
-			System.out.print(ShoppingCartItems.get(i).getItemOldPrice() +"   ");
-			System.out.print(ShoppingCartItems.get(i).getPlace() +"   ");
-			System.out.println();
-		}
-	}
-
-	protected void buildList() {
-		for (int i=0;i<names.size(); i++) {
-			ShoppingCartItems.add(new ShoppingCartItem(names.get(i).getText(),oldPrice.get(i).getText(),
-					actualPrice.get(i).getText(), i));
-		}
-		
-	}
-	
+    public ShoppingCartItemsList(WebDriver d) {
+        this.driver = d;
+       
+    }
+   
+    /**
+     * Выбрать элемент в корзине. Отсчет от единицы
+     * @throws Exception
+     */
+    public ShoppingCartItem get(int i) throws Exception {
+          int toGet = i -1;
+       
+          if (i < 1) {
+                Exception e = new Exception("В корзине элементы начинаются с 1. " + (i));
+                e.printStackTrace();
+                throw e ;
+                } 
+         
+         
+        if (ShoppingCartItems==0) {
+            Exception e = new Exception("В корзине пусто. Нельзя вызвать get(). Возможно стоит вызвать getItemsFromPage() вначале");
+            e.printStackTrace();
+            throw e ;
+            }
+       
+        if (toGet > ShoppingCartItems) {
+            Exception e = new Exception("Вы пытаетесь запросить get() больше чем есть в корзине.  " + (i));
+            e.printStackTrace();
+            throw e ;
+        }
+       
+        //Вернуть запрашиваемый элемент
+        return new ShoppingCartItem(driver).init(i);
+      }
+   
+   
+   
+    /**
+     * Узнать сколько элементов лежит в корзине на странице
+     */
+    public int getCount(){
+         
+        return ShoppingCartItems ;
+    }
+   
+    protected ShoppingCartItemsList init() {
+        ShoppingCartItems = PriceUtils.getList(driver, itemsInCart).size();
+      return this;   
+    }
+       
+   
 }

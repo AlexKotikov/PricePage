@@ -3,18 +3,12 @@ package org.kotikov.PriceView;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
 
 public class PriceSPAApp {
 	
 	final WebDriver driver;
 	
-	private RecomenduemoeTab       Recomenduemoe;
-	private DostupKBazeResumeTab   DostupKBazeResume;
-	private PublikatsiiVakansiyTab PublikatsiiVakansiy;
-	private DopolnitelnieUslugiTab DopolnitelnieUslugi;
-	private ShoppingCart 		   cart;
 	
 	
 	@FindBy(tagName  = "H1") 
@@ -37,6 +31,13 @@ public class PriceSPAApp {
 	public String getTitle() {
 		return title.getText();
 	}
+	
+	public String getPageTitle() {
+		return driver.getTitle();
+	}
+	
+	
+	
 	public	PriceSPAApp(WebDriver d ){
 		this.driver = d;
 	}
@@ -49,7 +50,9 @@ public class PriceSPAApp {
 	}
 	
 	public PublikatsiiVakansiyTab getPublikatsiiVakansiyTab(){
-		return PageFactory.initElements(driver, PublikatsiiVakansiyTab.class);
+		//return PageFactory.initElements(driver, PublikatsiiVakansiyTab.class);
+		return new PublikatsiiVakansiyTab(driver);
+		
 	}
 	public DopolnitelnieUslugiTab getDopolnitelnieUslugiTab(){
 		return PageFactory.initElements(driver, DopolnitelnieUslugiTab.class);

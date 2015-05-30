@@ -1,0 +1,20 @@
+<offersList>
+  <offerRecomenduemoePage>
+    <actualPrice>2100 руб.</actualPrice>
+    <giftDesc>при покупке вакансии</giftDesc>
+    <giftTitle>День доступа к базе резюме бесплатно</giftTitle>
+    <oldPrice>3000</oldPrice>
+    <specialOfferPlus>+День доступа к базе резюме бесплатно</specialOfferPlus>
+    <specialOfferTitle>Вакансия Стандарт+</specialOfferTitle>
+    <specialOfferTitleSHORT></specialOfferTitleSHORT>
+  </offerRecomenduemoePage>
+  <offerRecomenduemoePage>
+    <actualPrice>9000 руб.</actualPrice>
+    <giftDesc>при покупке доступа к базе резюме</giftDesc>
+    <giftTitle>Вакансия Стандарт+ бесплатно</giftTitle>
+    <oldPrice></oldPrice>
+    <specialOfferPlus>+Вакансия Стандарт+ бесплатно</specialOfferPlus>
+    <specialOfferTitle>Неделя доступа к резюме в регионе: Санкт-Петербург и Ленинградская область</specialOfferTitle>
+    <specialOfferTitleSHORT>Неделя доступа к</specialOfferTitleSHORT>
+  </offerRecomenduemoePage>  
+</offersList>

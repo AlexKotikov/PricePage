@@ -1,18 +1,18 @@
 package org.kotikov.framework;
 
-import java.util.regex.Pattern;
+import static org.junit.Assert.fail;
+
 import java.util.concurrent.TimeUnit;
 
-import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.kotikov.PriceView.PriceSPAApp;
-
-import static org.junit.Assert.*;
-import static org.hamcrest.CoreMatchers.*;
-import org.openqa.selenium.*;
+import org.openqa.selenium.Alert;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoAlertPresentException;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.Select;
 
 public class TestCommander {
  
@@ -64,6 +64,11 @@ public class TestCommander {
    public static void  go(String url) {
 	   driver.get(url);
    }
+   
+   public static void  refresh () {
+	   driver.navigate().refresh();
+   }
+   
    
  
   private boolean isElementPresent(By by) {

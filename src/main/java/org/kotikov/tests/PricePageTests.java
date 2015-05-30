@@ -2,21 +2,27 @@ package org.kotikov.tests;
 
 import static org.junit.Assert.assertEquals;
 
-import org.junit.After;
 import org.junit.AfterClass;
-import org.junit.Before;
 import org.junit.Test;
 import org.kotikov.framework.TestCommander;
 
 
 public class PricePageTests  extends TestCommander{
-
+	@AfterClass
+	  public static void end() throws Exception {
+		System.out.println(Thread.currentThread().getStackTrace()[1].getClassName() + " всё");
+		if (!TestCommander.isSuiteModeTrue())
+		TestCommander.tearDown();
+	  }
+ 
 
    /**
     * Проверить, что страница Price отображается пользователю
+ * @throws InterruptedException 
     */
 	@Test
-	public void testPricePage() {
+	public void testPricePage() throws InterruptedException {
+		Thread.sleep(5000);
 		
 	String  actual = page.getTitle();
 	String expected = "Покупка услуг (демо)";
@@ -37,15 +43,9 @@ public class PricePageTests  extends TestCommander{
 	actual = page.getLinkDopolnitelnieUslugi();
 	expected = "Дополнительные услуги";
 	assertEquals(expected, actual);
-	
 	}
 	
-	@AfterClass
-	  public static void end() throws Exception {
-		System.out.println(Thread.currentThread().getStackTrace()[1].getClassName() + " всё");
-		if (!TestCommander.isSuiteModeTrue())
-		TestCommander.tearDown();
-		  
-	  }
+
+
 	
 }
